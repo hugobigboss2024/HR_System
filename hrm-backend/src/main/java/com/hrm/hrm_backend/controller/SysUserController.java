@@ -13,10 +13,6 @@ import com.hrm.hrm_backend.utils.JwtUtils;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -30,12 +26,12 @@ public class SysUserController {
     private JwtUtils jwtUtils;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest){
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         // 驗證帳號密碼
-         SysUser user = SysUserService.login(loginRequest.getUsername(), loginRequest.getPassword());
-        if(user == null){
+        SysUser user = sysUserService.login(loginRequest.getUsername(), loginRequest.getPassword());
+        if (user == null) {
             Map<String, String> error = new HashMap<>();
-            error.put("message", "user name or password is wrong!");
+            error.put("message", "帳號或密碼錯誤");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
         }
 
@@ -50,15 +46,15 @@ public class SysUserController {
 
     // 取得當前登入者資訊驗證Token
     @GetMapping("/me")
-    public ResponseEntity<?> getCurrentUser(@RequestHeader("Authorization") String authHeader){
-        if(authHeader == null || !authHeader.startsWith("Bearer")){
+    public ResponseEntity<?> getCurrentUser(@RequestHeader("Authorization") String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer")) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Missing or invalid Authorization header");
         }
 
         String token = authHeader.substring(7);
 
         // 驗證Token
-        if(!jwtUtils.validateToken(token)){
+        if (!jwtUtils.validateToken(token)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
         }
 
