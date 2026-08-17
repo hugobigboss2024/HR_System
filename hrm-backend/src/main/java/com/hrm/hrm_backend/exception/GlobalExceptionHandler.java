@@ -18,7 +18,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public Result<Void> handleBusinessException(BusinessException e) {
         log.error("Business anomaly: {}", e.getMessage());
-        return Result.error(e.getCode(), e.getMessage());
+        // return Result.error(e.getCode(), e.getMessage());
+        Integer code = e.getCode() != null ? e.getCode() : 500;
+        return Result.error(code, e.getMessage());
     }
 
     // 捕獲SpringBoot@Valid/@Validated參數校驗失敗異常
@@ -39,6 +41,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public Result<Void> handleGeneralException(Exception e) {
         log.error("The system did not catch the exception.: ", e);
-        return Result.error(500, "The system is busy, please try again later.: " + e.getMessage());
+        // return Result.error(500, "The system is busy, please try again later.: " + e.getMessage());
+        return Result.error(500, "The system is busy, please try again later.: "); // 移除e.getMessage()對外只返回通用安全提示
     }
 }

@@ -1,0 +1,22 @@
+package com.hrm.hrm_backend.dto;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
+
+@Data
+public class RegisterDTO {
+    @NotBlank(message = "Username cannot be blank")
+    @Size(min = 5, max = 20, message = "Username must be between 5 and 20 characters")
+    private String username;
+
+    @NotBlank(message = "Password cannot be blank")
+    @Size(min = 8, max = 20, message = "Password must be between 8 and 20 characters")
+    private String password;
+
+    @NotBlank(message = "Real name cannot be blank")
+    private String realName;
+
+    private String email;
+    private String phone;
+}

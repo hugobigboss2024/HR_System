@@ -2,19 +2,22 @@ package com.hrm.hrm_backend.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class LoginResponse {
-    // 登入成功回應
     private String token;
-    private String tokenType = "Bearer";
     private Long userId;
     private String userName;
+    private String realName;
 
-    public LoginResponse(String token, Long userId, String userName){
+    /*
+    public LoginResponse(String token, Long userId, String userName, String realName){
         this.token = token;
         this.userId = userId;
         this.userName = userName;
     }
+    */
 }
